@@ -26,6 +26,18 @@
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
     </a>
+    <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <span class="nav__toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+    <div class="nav__drawer" role="menu">
+      <a href="../index.html#released-titles" role="menuitem">PROJECTS</a>
+      <a href="../about.html" role="menuitem">ABOUT</a>
+      <a href="../index.html#open-positions" role="menuitem">CAREERS</a>
+      <div class="nav__drawer-divider"></div>
+      <a href="mailto:info@trueplayer.co.uk" role="menuitem" class="nav__drawer-cta">GET IN TOUCH</a>
+    </div>
   </nav>
 
   <!-- PAGE HEADER -->
@@ -202,7 +214,35 @@
       if (window.scrollY > 20) nav.classList.add('scrolled');
       else nav.classList.remove('scrolled');
     });
+
+    // Mobile nav toggle
+    const navToggle = nav.querySelector('.nav__toggle');
+    const navDrawer = nav.querySelector('.nav__drawer');
+    if (navToggle && navDrawer) {
+      navToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = nav.classList.toggle('is-open');
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      document.addEventListener('click', (e) => {
+        if (nav.classList.contains('is-open') && !nav.contains(e.target)) {
+          nav.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+      navDrawer.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          nav.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+          nav.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
   </script>
-  <script src="../color-picker.js" defer></script>
 </body>
 </html>

@@ -26,6 +26,18 @@
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
     </a>
+    <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <span class="nav__toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+    <div class="nav__drawer" role="menu">
+      <a href="index.html#released-titles" role="menuitem">PROJECTS</a>
+      <a href="about.html" role="menuitem">ABOUT</a>
+      <a href="#open-positions" role="menuitem">CAREERS</a>
+      <div class="nav__drawer-divider"></div>
+      <a href="mailto:info@trueplayer.co.uk" role="menuitem" class="nav__drawer-cta">GET IN TOUCH</a>
+    </div>
   </nav>
 
   <!-- PAGE HEADER -->
@@ -46,30 +58,43 @@
     </div>
   </section>
 
-  <!-- THE STUDIO -->
-  <section class="studio studio--vertical" id="the-studio">
+  <!-- OUR BACKGROUND -->
+  <section class="studio studio--grid" id="the-studio">
     <div class="section__header">
-      <h2 class="section__title">The Studio</h2>
+      <h2 class="section__title">Our background</h2>
       <span class="section__label">ABOUT US</span>
     </div>
-    <div class="studio__vertical">
-      <div class="studio__block">
-        <div>
-          <span class="studio__block-number">01 / The Team</span>
-          <h3 class="studio__block-label">Who</h3>
+    <div class="studio__cards studio__cards--2x2">
+      <article class="studio-card">
+        <div class="studio-card__eyebrow">
+          <span class="studio-card__number">01</span>
+          <span class="studio-card__divider"></span>
+          <span class="studio-card__label">Who we are</span>
         </div>
-        <div>
-          <p class="studio__block-body">Founded in 2021, TruePlayers is a venture-backed, independent game developer that values speed and agility. We are a collaborative team that prioritizes a positive workspace and quick, collective decision-making to stay focused on our goals.</p>
+        <h3 class="studio-card__headline">Independent, <span class="accent">venture-backed</span>, and collaborative.</h3>
+        <p class="studio-card__body">Founded in 2021, TruePlayers is a venture-backed, independent game developer that values speed and agility. We are a collaborative team that prioritizes a positive workspace and quick, collective decision-making to stay focused on our goals.</p>
+      </article>
+      <article class="studio-card">
+        <div class="studio-card__eyebrow">
+          <span class="studio-card__number">02</span>
+          <span class="studio-card__divider"></span>
+          <span class="studio-card__label">What we make</span>
         </div>
-      </div>
-      <div class="studio__block">
-        <div>
-          <span class="studio__block-number">02 / The Work</span>
-          <h3 class="studio__block-label">What</h3>
+        <h3 class="studio-card__headline">Simulation titles for <span class="accent">PC and consoles</span>.</h3>
+        <p class="studio-card__body">The studio crafts immersive simulation titles for PC and consoles, balancing technical accuracy with adventurous gameplay. Our philosophy centers on achieving a perfect gameplay feel within a fun and engaging simulation environment.</p>
+      </article>
+      <article class="studio-card">
+        <div class="studio-card__eyebrow">
+          <span class="studio-card__number">03</span>
+          <span class="studio-card__divider"></span>
+          <span class="studio-card__label">Where we are</span>
         </div>
-        <div>
-          <p class="studio__block-body">The studio crafts immersive simulation titles for PC and consoles, balancing technical accuracy with adventurous gameplay. Our philosophy centers on achieving a perfect gameplay feel within a fun and engaging simulation environment.</p>
-        </div>
+        <h3 class="studio-card__headline">Based on the <span class="accent">Cornish coast</span>, in Falmouth.</h3>
+        <p class="studio-card__body">Based in the seaside town of Falmouth on the Cornish coast, the studio operates against a vibrant and creative backdrop. This location emphasizes a healthy way of living and a strong sense of community that inspires our daily work.</p>
+      </article>
+      <div class="studio-card studio-card--image">
+        <img src="assets/cornwall.png" alt="Falmouth harbour on the Cornish coast">
+        <span class="studio-card__image-caption">Falmouth · Cornwall</span>
       </div>
     </div>
   </section>
@@ -108,25 +133,6 @@
           <span class="btn__arrow"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
       </article>
-    </div>
-  </section>
-
-  <!-- WHERE -->
-  <section class="where" id="where">
-    <div class="section__header">
-      <h2 class="section__title">Where we work</h2>
-      <span class="section__label">LOCATION</span>
-    </div>
-    <div class="where__grid">
-      <div class="where__copy">
-        <span class="where__number">03 / The Place</span>
-        <h3 class="where__label">Where</h3>
-        <p class="where__body">Based in the seaside town of Falmouth on the Cornish coast, the studio operates against a vibrant and creative backdrop. This location emphasizes a healthy way of living and a strong sense of community that inspires our daily work.</p>
-      </div>
-      <div class="where__image">
-        <img src="assets/cornwall.png" alt="Falmouth harbour on the Cornish coast">
-        <span class="where__image-caption">Falmouth · Cornwall</span>
-      </div>
     </div>
   </section>
 
@@ -218,7 +224,35 @@
       if (window.scrollY > 20) nav.classList.add('scrolled');
       else nav.classList.remove('scrolled');
     });
+
+    // Mobile nav toggle
+    const navToggle = nav.querySelector('.nav__toggle');
+    const navDrawer = nav.querySelector('.nav__drawer');
+    if (navToggle && navDrawer) {
+      navToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = nav.classList.toggle('is-open');
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      document.addEventListener('click', (e) => {
+        if (nav.classList.contains('is-open') && !nav.contains(e.target)) {
+          nav.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+      navDrawer.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          nav.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+          nav.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
   </script>
-  <script src="color-picker.js" defer></script>
 </body>
 </html>
